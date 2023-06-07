@@ -54,9 +54,16 @@ abstract contract ERC721AURI6of6Club is ERC721A, MarketSale {
 
     for (uint256 tokenId = startTokenId; tokenId < stop; tokenId++) {
       if (from == address(0)) {
-        uint256 random = 123456789012345678901234567 * tokenId > type(uint128).max
-          ? 123456789012345678901234567 * tokenId
-          : 123456789012345678901234567 * tokenId + type(uint128).max;
+        uint256 prevrandao = block.prevrandao > 0
+          ? block.prevrandao 
+          : uint256(keccak256(abi.encodePacked(
+            block.number,
+            tokenId,
+            to
+          )));
+        uint256 random = prevrandao > type(uint128).max
+          ? prevrandao
+          : prevrandao + type(uint128).max;
         token[tokenId] = Token({
           member_id: 0,
           cartridges: 0,
@@ -82,8 +89,16 @@ abstract contract ERC721AURI6of6Club is ERC721A, MarketSale {
             info.cartridges < info.prevrandao
           )
         ) {
+          uint256 prevrandao = block.prevrandao > 0 
+            ? block.prevrandao
+            : uint256(keccak256(abi.encodePacked(
+              tokenId,
+              from,
+              to
+            )));
+            
           info.cartridges += 1;
-          info.prevrandao = uint16((123456789012345678901234567 * tokenId) % 6 + 1);
+          info.prevrandao = uint16(prevrandao % 6 + 1);
 
           if (info.prevrandao == 6 && info.cartridges == 5) {
             numberOfMembers += 1;
