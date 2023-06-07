@@ -17,7 +17,7 @@ abstract contract ERC721AURI6of6Club is
   ERC721A, 
   MarketSale,
   VRFConsumerBaseV2(0x7a1BaC17Ccc5b313516C5E16fb24f7659aA5ebed), // POLYGON HARDCODE!
-  ConfirmedOwner(0x3e0B1183F791305265074E245C68704165d01179) // POLYGON HARDCODE!
+  ConfirmedOwner(0xB0D717A36CECdE978Bfbff1E3A06cb20153ca45c) // POLYGON HARDCODE!
 {
   VRFCoordinatorV2Interface COORDINATOR = 
     VRFCoordinatorV2Interface(0x7a1BaC17Ccc5b313516C5E16fb24f7659aA5ebed); // POLYGON HARDCODE!
@@ -71,7 +71,7 @@ abstract contract ERC721AURI6of6Club is
       if (from == address(0)) {
         _tokenIds[_numWords] = tokenId;
         _numWords++;
-      } else {
+      } else if (isSale()) {
         Token storage info = token[tokenId];
 
         if (
@@ -90,11 +90,11 @@ abstract contract ERC721AURI6of6Club is
     if (_numWords > 0) {
       uint256 requestId = COORDINATOR.requestRandomWords(
         0x4b09e658ed251bcafeebbc69400383d49f344ace09b9576fe248bb02c003fe9f,
-        4988,
+        5102,
         3,
-        200000,
+        500000,
         _numWords
-      );
+      ); 
       _request[requestId] = _tokenIds;
     }
     
