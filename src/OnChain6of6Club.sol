@@ -4,7 +4,7 @@ pragma solidity ^0.8.19;
 import {IERC721A, ERC721A} from "./erc721a/ERC721A.sol";
 import {ERC721AQueryable} from "./erc721a/extensions/ERC721AQueryable.sol";
 import {ERC721ABurnable} from "./erc721a/extensions/ERC721ABurnable.sol";
-import {ERC721AURI6of6Club} from "./erc721a/extensions/ERC721AURI6of6ClubChainlink.sol";
+import {ERC721AURI6of6Club} from "./erc721a/extensions/ERC721AURI6of6Club.sol";
 import {OperatorFilterer} from "./OperatorFilterer.sol";
 import {Ownable} from "./openzeppelin-contracts/access/Ownable.sol";
 import {SafeMath} from "./openzeppelin-contracts/utils/math/SafeMath.sol";
@@ -19,7 +19,7 @@ contract OnChain6of6Club is
     ERC721ABurnable,
     ERC721AURI6of6Club,
     OperatorFilterer,
-    // Ownable, 
+    Ownable, 
     ERC2981 
 { 
     using SafeMath for uint256;   
